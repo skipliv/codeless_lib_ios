@@ -1223,7 +1223,9 @@ static NSString* const TAG = @"CodelessManager";
     if (!self.dspsTxFlowOn)
         return;
     if (operation.period > 0) {
-        [operation performSelector:@selector(sendChunk) withObject:nil afterDelay:resume ? operation.period / 1000. : 0];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [operation performSelector:@selector(sendChunk) withObject:nil afterDelay:resume ? operation.period / 1000. : 0];
+        });
     } else {
         CodelessLogPrefixOpt(CodelessLibLog.DSPS_FILE_CHUNK, TAG, "Queue all file chunks: %@", operation);
         NSMutableArray<CodelessManager_GattOperation*>* chunks = [NSMutableArray array];
