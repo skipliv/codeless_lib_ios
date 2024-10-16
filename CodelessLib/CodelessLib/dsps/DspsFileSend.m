@@ -187,6 +187,8 @@ static NSString* const TAG = @"DspsFileSend";
 
 - (void) sendChunk {
     self.chunk++;
+    if(self.chunk > self.totalChunks - 1)
+        return;
     CodelessLogPrefixOpt(CodelessLibLog.DSPS_FILE_CHUNK, TAG, "Queue file chunk: %@ %d of %d", self, self.chunk + 1, self.totalChunks);
     [self.manager sendFileData:self];
     if (self.chunk < self.totalChunks - 1)
